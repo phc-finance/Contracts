@@ -52,7 +52,7 @@ contract MasterChef is Ownable, ReentrancyGuard {
     }
 
     // The PHCF TOKEN!
-    PhcfToken public phcf;
+    PHCFToken public phcf;
     // Team address.
     address public teamAddr;
     // Team reward.
@@ -98,7 +98,7 @@ contract MasterChef is Ownable, ReentrancyGuard {
     event RewardLockedUp(address indexed user, uint256 indexed pid, uint256 amountLockedUp);
 
     constructor(
-        PhcfToken _phcf,
+        PHCFToken _phcf,
         address _teamAddr,
         address _marketingAddr,
         address _feeAddress,
@@ -221,10 +221,6 @@ contract MasterChef is Ownable, ReentrancyGuard {
         payOrLockupPendingPhcf(_pid);
         if (_amount > 0) {
             pool.lpToken.safeTransferFrom(address(msg.sender), address(this), _amount);
-            if (address(pool.lpToken) == address(phcf)) {
-                uint256 transferTax = _amount.mul(phcf.transferTaxRate()).div(10000);
-                _amount = _amount.sub(transferTax);
-            }
             if (pool.depositFeeBP > 0) {
                 uint256 depositFee = _amount.mul(pool.depositFeeBP).div(10000);
                 pool.lpToken.safeTransfer(feeAddress, depositFee);
@@ -265,10 +261,6 @@ contract MasterChef is Ownable, ReentrancyGuard {
         payOrLockupPendingPhcf(0);
         if (_amount > 0) {
             pool.lpToken.safeTransferFrom(address(msg.sender), address(this), _amount);
-            if (address(pool.lpToken) == address(phcf)) {
-                uint256 transferTax = _amount.mul(phcf.transferTaxRate()).div(10000);
-                _amount = _amount.sub(transferTax);
-            }
             if (pool.depositFeeBP > 0) {
                 uint256 depositFee = _amount.mul(pool.depositFeeBP).div(10000);
                 pool.lpToken.safeTransfer(feeAddress, depositFee);

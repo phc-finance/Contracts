@@ -33,7 +33,7 @@ contract SmartChef is Ownable {
     }
 
     // The PHCF TOKEN!
-    PhcfToken public phcf;
+    PHCFToken public phcf;
     IBEP20 public rewardToken;
     uint256 public rewardTokenDecimals;
 
@@ -65,7 +65,7 @@ contract SmartChef is Ownable {
     event EmergencyWithdraw(address indexed user, uint256 amount);
 
     constructor(
-        PhcfToken _phcf,
+        PHCFToken _phcf,
         IBEP20 _rewardToken,
         uint256 _rewardTokenDecimals,
         uint256 _rewardPerBlock,
@@ -180,14 +180,12 @@ contract SmartChef is Ownable {
             pool.lpToken.safeTransferFrom(address(msg.sender), address(this), _amount);
             if(pool.depositFeeBP > 0){
                 uint256 depositFee = _amount.mul(pool.depositFeeBP).div(10000);
-                uint256 transferTax = _amount.mul(phcf.transferTaxRate()).div(10000);
                 pool.lpToken.safeTransfer(burnAddress, depositFee);
-                user.amount = user.amount.add(_amount).sub(depositFee).sub(transferTax);
-                depositedPhcf = depositedPhcf.add(_amount).sub(depositFee).sub(transferTax);
+                user.amount = user.amount.add(_amount).sub(depositFee);
+                depositedPhcf = depositedPhcf.add(_amount).sub(depositFee);
             }else{
-                uint256 transferTax = _amount.mul(phcf.transferTaxRate()).div(10000);
-                user.amount = user.amount.add(_amount).sub(transferTax);
-                depositedPhcf = depositedPhcf.add(_amount).sub(transferTax);
+                user.amount = user.amount.add(_amount);
+                depositedPhcf = depositedPhcf.add(_amount);
             }
         }        
         
