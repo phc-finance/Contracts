@@ -2,9 +2,9 @@
 
 PHCF Token : 
 
-Address : 0xfe283D9c54fEE4D239FB72323106b58f086D2E78
+Address : 0xd372380493213cEB1761673530b2b17Dfa3Eb5F0
 
-BSC contract code : https://bscscan.com//address/0xfe283D9c54fEE4D239FB72323106b58f086D2E78
+BSC contract code : https://bscscan.com//address/0xd372380493213cEB1761673530b2b17Dfa3Eb5F0
 
 PHCF Masterchef : 
 
